@@ -1,0 +1,8 @@
+PORT = 5001
+NODE_ENV = development
+CLIENT_URL=http://localhost:3000
+#MONGO_URI=mongodb+srv://koribeche:koribeche@fullstack.1wq68.mongodb.net/fullstack
+MONGO_URI=mongodb+srv://amine:amine@amine.feaocpt.mongodb.net/fullstack
+
+# crypt
+PRIVATE_KEY=83c78c58637bcd70fa99c895b87b2d6e3f23bdabf14e6db307c16d0335ee5526
