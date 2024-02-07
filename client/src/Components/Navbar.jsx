@@ -53,8 +53,8 @@ function Header() {
                 <>
                   <div className="d-none d-md-flex">
                     <li className="nav-item">
-                      <Link to="/panier" className="nav-link">
-                        <FaCartArrowDown /> Panier {panier.length}
+                      <Link to="/" className="nav-link">
+                        <FaCartArrowDown /> 
                       </Link>
                     </li>
                     <li className="nav-item dropdown">
@@ -72,13 +72,13 @@ function Header() {
                           </Link>
                         </li> */}
                         <li>
-                          <Link to="/annonce" className="dropdown-item">
-                            <FaList /> Annonce {listAnnonce.length}
+                          <Link to="/" className="dropdown-item">
+                            <FaList /> 
                           </Link>
                         </li>
                         <li>
-                          <Link to="/commande" className="dropdown-item">
-                            <FaConciergeBell /> Commande {commandes.length}
+                          <Link to="/" className="dropdown-item">
+                            <FaConciergeBell /> 
                           </Link>
                         </li>
                         <li onClick={() => onLogout()}>
