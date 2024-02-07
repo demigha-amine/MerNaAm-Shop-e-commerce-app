@@ -1,7 +1,6 @@
 PORT = 5001
 NODE_ENV = development
 CLIENT_URL=http://localhost:3000
-#MONGO_URI=mongodb+srv://koribeche:koribeche@fullstack.1wq68.mongodb.net/fullstack
 MONGO_URI=mongodb+srv://amine:amine@amine.feaocpt.mongodb.net/fullstack
 
 # crypt

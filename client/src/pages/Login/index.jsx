@@ -1,4 +1,3 @@
-import { FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Spinner from "../../Components/Spinner";
 import Error from "../../Components/Error";
@@ -12,17 +11,15 @@ function Login() {
   return (
     <>
       <section className="w-100 text-center ">
-        <h1>
-          <FaSignInAlt /> Login
-        </h1>
-        <p>Login and start Shopping</p>
+      
+        <h3 style={{color:"#f27e4a",  fontWeight: "400", marginBottom:"4%"}}>Connectez vous </h3>
       </section>
 
       {isLoading && <Spinner />}
 
       {isError && <Error msg={isError} />}
 
-      <section className="form">
+      <section className="form" style={{marginBottom:"4%"}}>
         <form onSubmit={onSubmit}>
           <Input
             type="email"
@@ -45,14 +42,14 @@ function Login() {
             isError={errorInput.password}
           />
 
-          <button type="submit" className="btn w-100 btn-secondary">
+          <button type="submit" className="btn w-100 btn-secondary" style={{backgroundColor:"#f27e4a",marginTop:"6%",borderRadius:"10px"}}>
             Login
           </button>
 
-          <p className="text-center text-muted mt-4 pb-3">
-            you don't have an account?
-            <Link to="/register" className="fw-bold text-body">
-              <u> Register here</u>
+          <p className="text-center text-muted mt-4 pb-3" style={{color:"#f27e4a"}}>
+          Si vous n'avez pas encore de compte
+            <Link to="/register" className="fw-bold text-body" style={{color:"#f27e4a"}}>
+              <u> Inscrivez-vous !</u>
             </Link>
           </p>
         </form>

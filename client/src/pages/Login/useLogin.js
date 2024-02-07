@@ -1,74 +1,66 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const useLogin = () => {
-  const [userInfo, setuserInfo] = useState({
+  const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
   });
-  const [errorInput, seterrorInput] = useState({
+  const [errorInput, setErrorInput] = useState({
     email: "",
     password: "",
   });
-  const [isLoading, setisLoading] = useState(false);
-  const [isError, setisError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
 
-  const user = useSelector((state) => state.auth);
-  // si l'utilisateur est déja connecté, il est redirecter vers la page d'accueil
+  // Utilisez useSelector pour sélectionner spécifiquement l'état ou la propriété indiquant si l'utilisateur est connecté
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // Exemple: ajustez selon votre structure de state
+
+  // Rediriger vers la page d'accueil si l'utilisateur est authentifié
   useEffect(() => {
-    if (user) navigate("/");
-  }, [user, navigate]);
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
-  // valide le formulaire de connexion
   const validate = () => {
-    //validate input
     let error = {};
 
-    if (userInfo.email === "") {
-      //validate email
+    if (!userInfo.email) {
       error.email = "Email is required";
     }
-    if (userInfo.password === "") {
-      //validate password
+    if (!userInfo.password) {
       error.password = "Password is required";
     }
-    seterrorInput(error);
-    return error;
+
+    setErrorInput(error);
+    return Object.keys(error).length === 0;
   };
 
-  // submit de formulaire pour la connexion
   const onSubmit = (e) => {
     e.preventDefault();
-    setisError(false);
-    const error = validate();
+    setIsError(false);
+    const isValid = validate();
 
-    if (Object.keys(error).length !== 0) {
-      return;
-    }
+    if (!isValid) return;
 
-    setisLoading(true);
+    setIsLoading(true);
     axios
       .post("/api/user/login", userInfo)
-      .then((res) => {
-        dispatch(setUser(res.data.user));
-        navigate(from, { replace: true });
+      .then(() => navigate("/"))
+      .catch((err) => {
+        setIsError(err.response ? err.response.data : 'An error occurred');
       })
-      .catch((err) => setisError(err.response.data))
-      .finally(() => setisLoading(false));
+      .finally(() => setIsLoading(false));
   };
 
-  // handle le changement des inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setuserInfo((userInfo) => ({ ...userInfo, [name]: value }));
+    setUserInfo((prev) => ({ ...prev, [name]: value }));
   };
 
   return { userInfo, errorInput, isLoading, isError, handleChange, onSubmit };

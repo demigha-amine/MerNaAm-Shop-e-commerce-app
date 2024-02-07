@@ -32,11 +32,11 @@ function Header() {
   return (
     <>
       {isLoading && <Spinner />}
-      <nav className="navbar navbar-expand-md navbar-dark bg-dark py-3 mb-5">
+      <nav className="navbar navbar-expand-md navbar-dark bg-custom py-3 mb-5" style={{borderRadius:"4px", boxShadow: '0 2px 4px rgba(0,0,0,0.2)'}}>
         <div className="container">
-          <Link to="/" className="navbar-brand">
-            <h1>Amir Shop</h1>
-          </Link>
+        <Link to="/" className="navbar-brand">
+          <img src="/logo.png" alt="mernaamShop" style={{ height: "80px", marginLeft:"-40%" }} />
+        </Link>
 
           <button
             className="navbar-toggler"
@@ -53,8 +53,8 @@ function Header() {
                 <>
                   <div className="d-none d-md-flex">
                     <li className="nav-item">
-                      <Link to="/" className="nav-link">
-                        <FaCartArrowDown /> 
+                      <Link to="" className="nav-link">
+                        <FaCartArrowDown /> Panier 
                       </Link>
                     </li>
                     <li className="nav-item dropdown">
@@ -72,13 +72,13 @@ function Header() {
                           </Link>
                         </li> */}
                         <li>
-                          <Link to="/" className="dropdown-item">
-                            <FaList /> 
+                          <Link to="" className="dropdown-item">
+                            <FaList /> Annonce 
                           </Link>
                         </li>
                         <li>
-                          <Link to="/" className="dropdown-item">
-                            <FaConciergeBell /> 
+                          <Link to="" className="dropdown-item">
+                            <FaConciergeBell /> Commande 
                           </Link>
                         </li>
                         <li onClick={() => onLogout()}>
@@ -105,14 +105,14 @@ function Header() {
                 </>
               ) : (
                 <>
-                  <li className="nav-item">
-                    <Link to="/login" className="nav-link">
-                      <FaSignInAlt /> Login
+                  <li className="nav-item" >
+                    <Link to="/login" className="nav-link text-black">
+                      <FaSignInAlt style={{color: "black",}}  /> <span className="text-black">Login</span>
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link to="/register" className="nav-link">
-                      <FaUser /> Register
+                  <li className="nav-item black-color">
+                    <Link to="/register" className="nav-link text-black ">
+                      <FaUser style={{color: "black",}}/> <span className="text-black">Register</span>
                     </Link>
                   </li>
                 </>

@@ -9,6 +9,7 @@
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;
+  background-color: #f2f2f2;
 }
 
 a {
@@ -34,7 +35,10 @@ h3 {
   font-weight: 600;
   margin-bottom: 10px;
 }
+.text-black{
+  color: #000;
 
+}
 svg {
   margin-right: 5px;
 }
@@ -66,9 +70,17 @@ svg {
   background-color: purple;
   color: white;
 }
-
+.bg-custom {
+  background: linear-gradient(to right, #f27e4a, #77aad9);
+}
+.btn w-100 btn-secondary{
+  background-color: #f27e4a;
+}
+p{
+  color: #f27e4a;
+}
 button:hover {
-  color: white !important;
+  color: black !important;
 }
 
 .title {
@@ -107,7 +119,9 @@ button:hover {
   position: absolute;
   top: 0;
 }
-
+.nav-item black-color {
+  color: black;
+}
 .carousel-caption h2 {
   color: #fff;
 }
@@ -123,9 +137,11 @@ button:hover {
 .carousel a {
   margin: 0 auto;
 }
-
-/*  Spinner  */
-
+.form-control
+{
+  border: 3px solid #808080;
+  border-radius: 10px;
+}
 .loadingSpinnerContainer {
   position: fixed;
   top: 0;
@@ -161,4 +177,8 @@ button:hover {
 .img-display{
   height: 300px !important;
   object-fit: cover;
+}
+
+.custom-toggler-icon {
+  color: black; 
 }
