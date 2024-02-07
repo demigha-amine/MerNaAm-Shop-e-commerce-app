@@ -1,6 +1,6 @@
 # Prog_Web
 
-## MERNt-Ecom
+## MERN E-commerce
 
 This is an e-commerce web application built with ReactJS for the front-end and NodeJS for the back-end and MongoDB for the database.
 
