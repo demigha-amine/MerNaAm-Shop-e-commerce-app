@@ -1,5 +1,5 @@
 npm i
-cd .\client\
+cd client
 npm i
 cd ..
 npm run dev
