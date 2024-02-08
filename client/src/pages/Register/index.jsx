@@ -1,4 +1,3 @@
-import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Spinner from "../../Components/Spinner";
 import Input from "../../Components/Shared/Input";
@@ -12,10 +11,9 @@ function Register() {
   return (
     <>
       <section className="w-100 text-center">
-        <h1>
-          <FaUser /> Register
-        </h1>
-        <p>Please create an account</p>
+       
+      <h3 style={{color:"#f27e4a",  fontWeight: "400", marginBottom:"4%"}}>Inscrivez vous pour une meilleure experience   </h3>
+
       </section>
 
       {loading && <Spinner />}
@@ -63,7 +61,7 @@ function Register() {
             onChange={handleChange}
             isError={errorInput.confirmPassword}
           />
-          <button type="submit" className="btn w-100 btn-secondary">
+          <button type="submit" className="btn w-100 btn-secondary" style={{backgroundColor:"#f27e4a",marginTop:"6%",borderRadius:"10px"}}>
             Register
           </button>
           <p className="text-center text-muted mt-4 pb-3">
