@@ -5,6 +5,10 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const app = express();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(
   express.json({
     verify: (req, res, buf) => {
