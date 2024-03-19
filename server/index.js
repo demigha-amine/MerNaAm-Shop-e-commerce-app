@@ -21,31 +21,11 @@ app.use(cors({ credentials: true, origin: true }));
 require("./config/database");
 
 // -----------------------      Route      -----------------------
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
-app.post("/test", upload.single("image"), async (req, res) => {
-  const file = req.file;
-  console.log(file);
-
-  // apply filter
-  // resize
-
-  const result = await uploadFile(file);
-  // await unlinkFile(file.path);
-  console.log(result);
-  //const description = req.body.description;
-  res.send({ imagePath: `/images/${result.Key}` });
-});
-
-app.get("/images/:key", (req, res) => {
-  console.log(req.params);
-  const key = req.params.key;
-  const readStream = getFileStream(key);
-
-  readStream.pipe(res);
-});
 
 app.use("/api/user", require("./routes/RouteUser"));
+app.use("/api/annonce", require("./routes/RouteAnnonce"));
+app.use("/api/panier", require("./routes/RouteProduitPanier"));
+app.use("/api/commande", require("./routes/RouteCommande"));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // -----------------------      Hébergement      -----------------------

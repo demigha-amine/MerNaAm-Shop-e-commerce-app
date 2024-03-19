@@ -1,15 +1,11 @@
-import {
-  FaSignInAlt,
-  FaSignOutAlt,
-  FaUser,
-  FaCartArrowDown,
-  FaList,
-  FaConciergeBell,
-} from "react-icons/fa";
+import React, { useState } from "react";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deconnexion } from "../features/auth/authSlice";
-import { useState } from "react";
+import { resetAnnonce } from "../features/annonce/annonceSlice";
+import { resetCommande } from "../features/commande/commandeSlice";
+import { resetPanier } from "../features/panier/panierSlice";
 import axios from "axios";
 import Spinner from "./Spinner";
 
@@ -24,6 +20,9 @@ function Header() {
       .delete("/api/user/logout")
       .then(() => {
         dispatch(deconnexion());
+        dispatch(resetAnnonce());
+        dispatch(resetCommande());
+        dispatch(resetPanier());
       })
       .catch((err) => console.log(err.response || err))
       .finally(() => setisLoading(false));
@@ -32,91 +31,96 @@ function Header() {
   return (
     <>
       {isLoading && <Spinner />}
-      <nav className="navbar navbar-expand-md navbar-dark bg-custom py-3 mb-5" style={{borderRadius:"4px", boxShadow: '0 2px 4px rgba(0,0,0,0.2)'}}>
-        <div className="container">
-        <Link to="/" className="navbar-brand">
-          <img src="/logo.png" alt="mernaamShop" style={{ height: "80px", marginLeft:"-40%" }} />
-        </Link>
+      <nav
+        className="navbar navbar-expand-md navbar-dark py-3 mb-5"
+        style={{ background: "linear-gradient(to right, #ee723aed, #77aad9)" }}
+      >
+        <div className="container" style={{ height: "66px" }}>
+          <Link to="/" className="navbar-brand">
+            <img
+              src="/logo.png"
+              alt=""
+              style={{ height: "113px", marginLeft: "-111%", width: "174%" }}
+            />
+          </Link>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navmenu"
+          <div
+            className="collapse navbar-collapse"
+            id="navbarNav"
+            style={{ marginLeft: "" }}
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navmenu">
-            <ul className="navbar-nav ms-auto gap-3">
-              {user ? (
-                <>
-                  <div className="d-none d-md-flex">
-                    <li className="nav-item">
-                      <Link to="" className="nav-link">
-                        <FaCartArrowDown /> Panier 
-                      </Link>
-                    </li>
-                    <li className="nav-item dropdown">
-                      <span
-                        role="button"
-                        className="nav-link"
-                        data-bs-toggle="dropdown"
-                      >
-                        {user.fullname}
-                      </span>
-                      <ul className="dropdown-menu dropdown-menu-dark">
-                        {/* <li>
-                          <Link to="/profile" className="dropdown-item">
-                            <FaUser /> Mon profile
-                          </Link>
-                        </li> */}
-                        <li>
-                          <Link to="" className="dropdown-item">
-                            <FaList /> Annonce 
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="" className="dropdown-item">
-                            <FaConciergeBell /> Commande 
-                          </Link>
-                        </li>
-                        <li onClick={() => onLogout()}>
-                          <Link to="/" className="dropdown-item">
-                            <FaSignOutAlt /> Logout
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </div>
-                  <div className="d-md-none">
-                    {/* <li className="nav-item">
-                      <Link to="/profile" className="nav-link">
-                        <FaUser /> Mon profile
-                      </Link>
-                    </li> */}
-
-                    <li className="nav-item" onClick={() => onLogout()}>
-                      <Link to="/" className="nav-link">
-                        <FaSignOutAlt /> Logout
-                      </Link>
-                    </li>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <li className="nav-item" >
-                    <Link to="/login" className="nav-link text-black">
-                      <FaSignInAlt style={{color: "black",}}  /> <span className="text-black">Login</span>
-                    </Link>
-                  </li>
-                  <li className="nav-item black-color">
-                    <Link to="/register" className="nav-link text-black ">
-                      <FaUser style={{color: "black",}}/> <span className="text-black">Register</span>
-                    </Link>
-                  </li>
-                </>
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item">
+                <Link to="/" className="nav-link" style={{ color: "black" }}>
+                  Accueil
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/panier"
+                  className="nav-link"
+                  style={{ color: "black", marginLeft: "20px" }}
+                >
+                  Panier
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/annonce"
+                  className="nav-link"
+                  style={{ color: "black", marginLeft: "20px" }}
+                >
+                  Produit
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/commande"
+                  className="nav-link"
+                  style={{ color: "black", marginLeft: "20px" }}
+                >
+                  commande
+                </Link>
+              </li>
+            </ul>
+            <ul className="navbar-nav">
+              {!user && (
+                <li className="nav-item">
+                  <Link
+                    to="/register"
+                    className="nav-link"
+                    style={{ color: "black" }}
+                  >
+                    <FaUser /> Register
+                  </Link>
+                </li>
               )}
+              {user && (
+                <li className="nav-item">
+                  <span className="nav-link" style={{ color: "black" }}>
+                    <FaUser /> {user.fullname}
+                  </span>
+                </li>
+              )}
+              <li className="nav-item">
+                {user ? (
+                  <span
+                    className="nav-link"
+                    onClick={onLogout}
+                    style={{ color: "black" }}
+                  >
+                    <FaSignOutAlt /> Logout
+                  </span>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="nav-link"
+                    style={{ color: "black" }}
+                  >
+                    <FaUser /> Login
+                  </Link>
+                )}
+              </li>
             </ul>
           </div>
         </div>

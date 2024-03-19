@@ -5,11 +5,13 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.mb-3{
+font-weight: bold;
+color: "#2c2a52"
+}
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;
-  background-color: #f2f2f2;
 }
 
 a {
@@ -35,10 +37,7 @@ h3 {
   font-weight: 600;
   margin-bottom: 10px;
 }
-.text-black{
-  color: #000;
 
-}
 svg {
   margin-right: 5px;
 }
@@ -58,9 +57,9 @@ svg {
 }
 
 .btnTeal {
-  border: 1px solid teal;
+  border: 1px solid #959fb5;
   border-radius: 5px;
-  background-color: teal;
+  background-color:  #959fb5;
   color: white;
 }
 
@@ -70,19 +69,10 @@ svg {
   background-color: purple;
   color: white;
 }
-.bg-custom {
-  background: linear-gradient(to right, #f27e4a, #77aad9);
-}
-.btn w-100 btn-secondary{
-  background-color: #f27e4a;
-}
-p{
-  color: #f27e4a;
-}
-button:hover {
-  color: black !important;
-}
 
+.btnTeal:hover{
+background-color: #646d81;
+}
 .title {
   height: 48px;
   overflow: hidden;
@@ -119,9 +109,7 @@ button:hover {
   position: absolute;
   top: 0;
 }
-.nav-item black-color {
-  color: black;
-}
+
 .carousel-caption h2 {
   color: #fff;
 }
@@ -137,11 +125,9 @@ button:hover {
 .carousel a {
   margin: 0 auto;
 }
-.form-control
-{
-  border: 3px solid #808080;
-  border-radius: 10px;
-}
+
+/*  Spinner  */
+
 .loadingSpinnerContainer {
   position: fixed;
   top: 0;
@@ -177,8 +163,4 @@ button:hover {
 .img-display{
   height: 300px !important;
   object-fit: cover;
-}
-
-.custom-toggler-icon {
-  color: black; 
 }

@@ -7,6 +7,8 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (_, action) => {
+      console.log("slice");
+      console.log(action.payload);
       return action.payload;
     },
     deconnexion: () => {

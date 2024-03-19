@@ -1,4 +1,7 @@
 const User = require("../models/User");
+const Annonce = require("../models/Annonce");
+const Commande = require("../models/Commande");
+const ProduitPanier = require("../models/ProduitPanier");
 const fs = require("fs/promises");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -29,13 +32,26 @@ exports.login = async (req, res) => {
       return res.status(400).json("Mot de passe incorrecte");
     }
 
-
-    let token = jwt.sign({ id: user._id }, "83c78c58637bcd70fa99c895b87b2d6e3f23bdabf14e6db307c16d0335ee5526");
+    let token = jwt.sign({ id: user._id }, process.env.PRIVATE_KEY);
     token = `Bearer ${token}`;
     user.password = undefined;
     res.cookie("token", token, { httpOnly: true });
-    
-;
+    let annonces = await Annonce.find({ user: user._id }).sort("-updatedAt");
+    let produitPaniers = await ProduitPanier.find()
+      .where("user", user._id)
+      .where("bought", false)
+      .populate("annonce");
+    const commandes = await Commande.find({ user: user._id }).populate(
+      "orderItems"
+    );
+
+    for (let item of commandes) {
+      for (let item2 of item.orderItems) {
+        await item2.populate("annonce");
+      }
+    }
+
+    res.json({ user, annonces, produitPaniers, commandes });
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -84,4 +100,35 @@ exports.logout = async (req, res) => {
   }
 };
 
+// GET ( Récupere l'utilisateur connecté )
+exports.getMe = async (req, res) => {
+  try {
+    let user = await User.findById(req.payload.id).select("-password");
+    if (!user) {
+      return res.status(400).json("L'id de l'utilisateur n'existe pas ");
+    }
 
+    let token = jwt.sign({ id: user._id }, process.env.PRIVATE_KEY);
+    token = `Bearer ${token}`;
+    res.cookie("token", token, { httpOnly: true });
+    let annonces = await Annonce.find({ user: user._id }).sort("-updatedAt");
+    let produitPaniers = await ProduitPanier.find()
+      .where("user", req.payload.id)
+      .where("bought", false)
+      .populate("annonce");
+    let commandes = await Commande.find({ user: req.payload.id }).populate(
+      "orderItems"
+    );
+
+    // récuperer l'annonce qui a été acheter
+    for (let item of commandes) {
+      for (let item2 of item.orderItems) {
+        await item2.populate("annonce");
+      }
+    }
+
+    res.json({ user, annonces, produitPaniers, commandes });
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+};

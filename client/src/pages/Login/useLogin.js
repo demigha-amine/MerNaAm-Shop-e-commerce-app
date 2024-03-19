@@ -1,66 +1,81 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../features/auth/authSlice";
+import { setAnnonce } from "../../features/annonce/annonceSlice";
+import { setPanier } from "../../features/panier/panierSlice";
+import { setCommande } from "../../features/commande/commandeSlice";
 import axios from "axios";
 
 const useLogin = () => {
-  const [userInfo, setUserInfo] = useState({
+  const [userInfo, setuserInfo] = useState({
     email: "",
     password: "",
   });
-  const [errorInput, setErrorInput] = useState({
+  const [errorInput, seterrorInput] = useState({
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
+  const [isError, setisError] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-  // Utilisez useSelector pour sélectionner spécifiquement l'état ou la propriété indiquant si l'utilisateur est connecté
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // Exemple: ajustez selon votre structure de state
-
-  // Rediriger vers la page d'accueil si l'utilisateur est authentifié
+  const user = useSelector((state) => state.auth);
+  // si l'utilisateur est déja connecté, il est redirecter vers la page d'accueil
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
+    if (user) navigate("/");
+  }, [user, navigate]);
 
+  // valide le formulaire de connexion
   const validate = () => {
+    //validate input
     let error = {};
 
-    if (!userInfo.email) {
+    if (userInfo.email === "") {
+      //validate email
       error.email = "Email is required";
     }
-    if (!userInfo.password) {
+    if (userInfo.password === "") {
+      //validate password
       error.password = "Password is required";
     }
-
-    setErrorInput(error);
-    return Object.keys(error).length === 0;
+    seterrorInput(error);
+    return error;
   };
 
+  // submit de formulaire pour la connexion
   const onSubmit = (e) => {
     e.preventDefault();
-    setIsError(false);
-    const isValid = validate();
+    setisError(false);
+    const error = validate();
 
-    if (!isValid) return;
+    if (Object.keys(error).length !== 0) {
+      return;
+    }
 
-    setIsLoading(true);
+    setisLoading(true);
     axios
       .post("/api/user/login", userInfo)
-      .then(() => navigate("/"))
-      .catch((err) => {
-        setIsError(err.response ? err.response.data : 'An error occurred');
+      .then((res) => {
+        console.log(res);
+        dispatch(setUser(res.data.user));
+        dispatch(setAnnonce(res.data.annonces));
+        dispatch(setPanier(res.data.produitPaniers));
+        dispatch(setCommande(res.data.commandes));
+        navigate(from, { replace: true });
       })
-      .finally(() => setIsLoading(false));
+      .catch((err) => setisError(err.response.data))
+      .finally(() => setisLoading(false));
   };
 
+  // handle le changement des inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo((prev) => ({ ...prev, [name]: value }));
+    setuserInfo((userInfo) => ({ ...userInfo, [name]: value }));
   };
 
   return { userInfo, errorInput, isLoading, isError, handleChange, onSubmit };

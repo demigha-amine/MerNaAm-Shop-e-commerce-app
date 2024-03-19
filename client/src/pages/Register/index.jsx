@@ -10,17 +10,18 @@ function Register() {
 
   return (
     <>
-      <section className="w-100 text-center">
-       
-      <h3 style={{color:"#f27e4a",  fontWeight: "400", marginBottom:"4%"}}>Inscrivez vous pour une meilleure experience   </h3>
-
+      <section className="w-100 text-center"style={{color:"rgb(238 114 58 / 93%)"}}>
+        <h1>
+         Inscription
+        </h1>
       </section>
 
       {loading && <Spinner />}
       {error && <Error msg={error} />}
 
       <section>
-        <form onSubmit={onSubmit} className="form">
+        <form onSubmit={onSubmit} className="form"  style={{    marginTop: "20px",marginBottom: "-27px"
+}}>
           <Input
             type="text"
             className="form-control"
@@ -61,13 +62,15 @@ function Register() {
             onChange={handleChange}
             isError={errorInput.confirmPassword}
           />
-          <button type="submit" className="btn w-100 btn-secondary" style={{backgroundColor:"#f27e4a",marginTop:"6%",borderRadius:"10px"}}>
+          <button type="submit" className="btn w-50 btn-secondary"  style={{    backgroundColor: "#ef7c48",borderColor: "#ef7c48", marginTop: "10%",
+    marginLeft: "70px", color: "#2c2a52",fontWeight:"bold"}}>
             Register
           </button>
-          <p className="text-center text-muted mt-4 pb-3">
-            Have already an account?
+          <p className="text-center text-muted mt-4 pb-4" style={{width: "107%",
+    marginLeft: "-20px"}}>
+            Avez-vous déja un compte?
             <Link to="/login" className="fw-bold text-body">
-              <u> Login here</u>
+              <u style={{ color: "#2c2a52",fontWeight:"bold"}}> Connectez-vous !</u>
             </Link>
           </p>
         </form>
