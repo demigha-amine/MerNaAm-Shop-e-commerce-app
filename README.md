@@ -1,4 +1,4 @@
-# Prog_Web
+# “MerNaAm Shop” e-commerce application
 
 ## MERN E-commerce
 
